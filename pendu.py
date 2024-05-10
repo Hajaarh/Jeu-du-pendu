@@ -237,11 +237,11 @@ class PenduApp:
         self.model.fit(self.X_train, self.y_train)
 
     def cacher_mot(self):
-        """Masque les lettres non devinées du mot secret."""
+        # Masque les lettres non devinées du mot secret.
         return ' '.join(char if char in self.lettres_devinées else '_' for char in self.mot_secret)  # Espaces entre chaque lettre
 
     def deviner_lettre(self):
-        """Gère la logique pour deviner une lettre."""
+        # Gère la logique pour deviner une lettre.
         if self.nb_vies <= 0:
             # Affichage du message de fin de partie si les vies sont épuisées
             messagebox.showinfo("Fin de partie", "Le jeu est terminé. Vous avez épuisé toutes vos vies.")
@@ -281,7 +281,7 @@ class PenduApp:
         messagebox.showinfo("Prochaine lettre à deviner", f"Prochaine lettre à deviner : {prochaine_lettre}")
 
     def generate_training_data(self):
-        """Génère les données d'entraînement pour le modèle."""
+        # Génère les données d'entraînement pour le modèle.
         X_train = []
         y_train = []
 
