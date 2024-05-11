@@ -1,10 +1,16 @@
 from tkinter import *
-from random_word import RandomWords
 import random
+from tkinter import Label
 
 class JeuDuPendu:
-    def __init__(self, root):
+    def __init__(self, root, mots):
         self.root = root
+
+        # Crée un bouton avec le texte "Suggérer Lettre" qui déclenche la fonction suggerer_lettre
+        self.bouton_suggestion = Button(root, text="Suggérer Lettre", command=self.suggerer_lettre, bg="#CD5C5C",
+                                        fg="white", state="normal")
+        self.bouton_suggestion.pack()
+
         self.root.title("Jeu du Pendu")
 
         # Initialise le nombre de vies du joueur à 7.
@@ -13,7 +19,10 @@ class JeuDuPendu:
         # Liste pour stocker les lettres saisies
         self.lettres_saisies = []
 
-        # Fonction pour choisir un mot aléatoire dans le dictionnaire
+        # Liste de mots
+        self.mots = mots
+
+        # Fonction pour choisir un mot aléatoire dans la liste de mots
         self.mot_a_deviner = self.choisir_mot()
 
         # Définir la couleur de fond de la fenêtre principale
@@ -22,6 +31,9 @@ class JeuDuPendu:
         # Crée une étiquette pour afficher le titre du jeu centré en gros caractères et avec une couleur de fond et de texte spécifiée.
         self.label_titre = Label(root, text="Jeu du Pendu", font=("Arial", 36, "bold"), bg="#FFDAB9", fg="#8B0000")  # Titre centré, couleur rouge foncé
         self.label_titre.pack()
+
+        self.label_lettre_suggeree = Label(root, text="", font=("Arial", 14), bg="#FFDAB9", fg="#8B0000")
+        self.label_lettre_suggeree.pack()
 
         # Crée une étiquette pour afficher le mot à deviner (masqué au début) avec une couleur de texte spécifiée.
         self.mot_affiche = StringVar()
@@ -46,10 +58,30 @@ class JeuDuPendu:
 
         self.mettre_a_jour_affichage()
 
-    # Fonction pour choisir un mot aléatoire dans le dictionnaire
+    # Fonction pour choisir un mot aléatoire dans la liste de mots
     def choisir_mot(self):
-        r = RandomWords()
-        return r.get_random_word()
+        return random.choice(self.mots)
+
+    # Fonction pour suggérer une lettre basée sur une analyse probabiliste
+    def suggerer_lettre(self):
+        lettres_non_devinees = [lettre for lettre in "abcdefghijklmnopqrstuvwxyz" if lettre not in self.lettres_saisies]
+        suggestions = {}
+        for lettre in lettres_non_devinees:
+            probabilite = self.calculer_proba_lettre(lettre)
+            suggestions[lettre] = probabilite
+        lettre_suggeree = max(suggestions, key=suggestions.get)
+
+        # Configurer le texte de l'étiquette avec la lettre suggérée
+        self.label_lettre_suggeree.config(text=f"Lettre suggérée : {lettre_suggeree}")
+
+        # Retourner la lettre suggérée
+        return lettre_suggeree
+
+    # Fonction pour calculer la probabilité d'une lettre basée sur les lettres déjà devinées
+    def calculer_proba_lettre(self, lettre):
+        mots_possibles = [mot for mot in self.mots if all(l in self.lettres_saisies or l == lettre for l in mot)]
+        proba = sum(m.count(lettre) for m in mots_possibles) / len(mots_possibles) if mots_possibles else 0
+        return proba
 
     # Fonction pour vérifier si une lettre est dans le mot
     def verifier_lettre(self):
@@ -86,11 +118,24 @@ class JeuDuPendu:
         self.mot_affiche.set(mot_affiche)
 
 
+# Fonction pour lire les mots à partir du fichier texte
+def lire_mots(nom_fichier):
+    mots = []
+    with open(nom_fichier, 'r') as fichier:
+        for ligne in fichier:
+            mots.append(ligne.strip())
+    return mots
+
+
 # Création de la fenêtre principale
 root = Tk()
+liste_mots = "C:/Users/haila/Python Tkinter/mots.txt"
+
+# Lecture des mots à partir du fichier texte "mots.txt"
+mots = lire_mots(liste_mots)
 
 # Création de l'instance du jeu
-jeu = JeuDuPendu(root)
+jeu = JeuDuPendu(root, mots)
 
 # Lancement de la boucle principale
 root.mainloop()
