@@ -2,6 +2,14 @@ from tkinter import *
 import random
 from tkinter import Label
 
+# Fonction pour lire les mots à partir du fichier texte
+def lire_mots(nom_fichier):
+    mots = []
+    with open(nom_fichier, 'r') as fichier:
+        for ligne in fichier:
+            mots.append(ligne.strip())
+    return mots
+
 class JeuDuPendu:
     def __init__(self, root, mots):
         self.root = root
@@ -116,16 +124,6 @@ class JeuDuPendu:
         for lettre in self.mot_a_deviner:
             mot_affiche += "_" if lettre not in self.lettres_saisies else lettre
         self.mot_affiche.set(mot_affiche)
-
-
-# Fonction pour lire les mots à partir du fichier texte
-def lire_mots(nom_fichier):
-    mots = []
-    with open(nom_fichier, 'r') as fichier:
-        for ligne in fichier:
-            mots.append(ligne.strip())
-    return mots
-
 
 # Création de la fenêtre principale
 root = Tk()
