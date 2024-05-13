@@ -10,6 +10,10 @@ def lire_mots(nom_fichier):
             mots.append(ligne.strip())
     return mots
 
+# Lecture des mots à partir du fichier texte "mots.txt"
+liste_mots = "C:/Users/haila/Python Tkinter/mots.txt"
+mots = lire_mots(liste_mots)
+
 class JeuDuPendu:
     def __init__(self, root, mots):
         self.root = root
@@ -127,10 +131,6 @@ class JeuDuPendu:
 
 # Création de la fenêtre principale
 root = Tk()
-liste_mots = "C:/Users/haila/Python Tkinter/mots.txt"
-
-# Lecture des mots à partir du fichier texte "mots.txt"
-mots = lire_mots(liste_mots)
 
 # Création de l'instance du jeu
 jeu = JeuDuPendu(root, mots)
