@@ -1,6 +1,5 @@
 from tkinter import *
 import random
-from tkinter import Label
 
 # Fonction pour lire les mots à partir du fichier texte
 def lire_mots(nom_fichier):
@@ -17,13 +16,7 @@ mots = lire_mots(liste_mots)
 class JeuDuPendu:
     def __init__(self, root, mots):
         self.root = root
-
-        # Crée un bouton avec le texte "Suggérer Lettre" qui déclenche la fonction suggerer_lettre
-        self.bouton_suggestion = Button(root, text="Suggérer Lettre", command=self.suggerer_lettre, bg="#CD5C5C",
-                                        fg="white", state="normal")
-        self.bouton_suggestion.pack()
-
-        self.root.title("Jeu du Pendu")
+        self.mots = mots
 
         # Initialise le nombre de vies du joueur à 7.
         self.nb_vies = 7
@@ -31,48 +24,56 @@ class JeuDuPendu:
         # Liste pour stocker les lettres saisies
         self.lettres_saisies = []
 
-        # Liste de mots
-        self.mots = mots
-
         # Fonction pour choisir un mot aléatoire dans la liste de mots
         self.mot_a_deviner = self.choisir_mot()
 
-        # Définir la couleur de fond de la fenêtre principale
-        self.root.configure(bg="#FFDAB9")
-
-        # Crée une étiquette pour afficher le titre du jeu centré en gros caractères et avec une couleur de fond et de texte spécifiée.
-        self.label_titre = Label(root, text="Jeu du Pendu", font=("Arial", 36, "bold"), bg="#FFDAB9", fg="#8B0000")  # Titre centré, couleur rouge foncé
-        self.label_titre.pack()
-
-        self.label_lettre_suggeree = Label(root, text="", font=("Arial", 14), bg="#FFDAB9", fg="#8B0000")
-        self.label_lettre_suggeree.pack()
-
-        # Crée une étiquette pour afficher le mot à deviner (masqué au début) avec une couleur de texte spécifiée.
-        self.mot_affiche = StringVar()
-        self.label_mot = Label(root, textvariable=self.mot_affiche, font=("Arial", 24), bg="#FFDAB9", fg="#8B0000")  # Couleur de texte rouge foncé
-        self.label_mot.pack()
-
-        # Crée une étiquette pour afficher le nombre de vies restantes du joueur avec une couleur de texte spécifiée.
-        self.label_vies = Label(root, text=f"Vies restantes : {self.nb_vies}", font=("Arial", 14), bg="#FFDAB9", fg="#8B0000")  # Couleur de texte rouge foncé
-        self.label_vies.pack()
-
-        # Crée une zone de saisie de texte où l'utilisateur peut entrer une lettre.
-        self.entree_lettre = Entry(root, font=("Arial", 14), bg="#FFA07A", state="normal")  # Couleur de fond saumon clair
-        self.entree_lettre.pack()
-
-        # Crée un bouton avec le texte "Devinez" qui déclenche la fonction
-        self.bouton_deviner = Button(root, text="Devinez", command=self.verifier_lettre, bg="#CD5C5C", fg="white", state="normal")  # Couleurs de fond rouge indien et de texte blanc
-        self.bouton_deviner.pack()
-
-        # Crée une zone pour afficher les lettres saisies
-        self.liste_lettres_saisies = Listbox(root, width=10, height=5, font=("Arial", 14), bg="#FFA07A", bd=0)  # Couleur de fond saumon clair, pas de bordure
-        self.liste_lettres_saisies.pack()
-
-        self.mettre_a_jour_affichage()
+        self.initialiser_interface()
 
     # Fonction pour choisir un mot aléatoire dans la liste de mots
     def choisir_mot(self):
         return random.choice(self.mots)
+
+    # Fonction pour initialiser l'interface graphique
+    def initialiser_interface(self):
+        self.root.title("Jeu du Pendu")
+
+        # Définir la couleur de fond de la fenêtre principale
+        self.root.configure(bg="#FFDAB9")
+
+        # Crée un bouton avec le texte "Suggérer Lettre" qui déclenche la fonction suggerer_lettre
+        self.bouton_suggestion = Button(self.root, text="Suggérer Lettre", command=self.suggerer_lettre, bg="#CD5C5C",
+                                        fg="white", state="normal")
+        self.bouton_suggestion.pack()
+
+        # Crée une étiquette pour afficher le titre du jeu centré en gros caractères et avec une couleur de fond et de texte spécifiée.
+        self.label_titre = Label(self.root, text="Jeu du Pendu", font=("Arial", 36, "bold"), bg="#FFDAB9", fg="#8B0000")  # Titre centré, couleur rouge foncé
+        self.label_titre.pack()
+
+        self.label_lettre_suggeree = Label(self.root, text="", font=("Arial", 14), bg="#FFDAB9", fg="#8B0000")
+        self.label_lettre_suggeree.pack()
+
+        # Crée une étiquette pour afficher le mot à deviner (masqué au début) avec une couleur de texte spécifiée.
+        self.mot_affiche = StringVar()
+        self.label_mot = Label(self.root, textvariable=self.mot_affiche, font=("Arial", 24), bg="#FFDAB9", fg="#8B0000")  # Couleur de texte rouge foncé
+        self.label_mot.pack()
+
+        # Crée une étiquette pour afficher le nombre de vies restantes du joueur avec une couleur de texte spécifiée.
+        self.label_vies = Label(self.root, text=f"Vies restantes : {self.nb_vies}", font=("Arial", 14), bg="#FFDAB9", fg="#8B0000")  # Couleur de texte rouge foncé
+        self.label_vies.pack()
+
+        # Crée une zone de saisie de texte où l'utilisateur peut entrer une lettre.
+        self.entree_lettre = Entry(self.root, font=("Arial", 14), bg="#FFA07A", state="normal")  # Couleur de fond saumon clair
+        self.entree_lettre.pack()
+
+        # Crée un bouton avec le texte "Devinez" qui déclenche la fonction
+        self.bouton_deviner = Button(self.root, text="Devinez", command=self.verifier_lettre, bg="#CD5C5C", fg="white", state="normal")  # Couleurs de fond rouge indien et de texte blanc
+        self.bouton_deviner.pack()
+
+        # Crée une zone pour afficher les lettres saisies
+        self.liste_lettres_saisies = Listbox(self.root, width=10, height=5, font=("Arial", 14), bg="#FFA07A", bd=0)  # Couleur de fond saumon clair, pas de bordure
+        self.liste_lettres_saisies.pack()
+
+        self.mettre_a_jour_affichage()
 
     # Fonction pour suggérer une lettre basée sur une analyse probabiliste
     def suggerer_lettre(self):
@@ -117,7 +118,7 @@ class JeuDuPendu:
             resultat += f" Vous avez perdu ! Le mot était : {self.mot_a_deviner}"
             self.entree_lettre.config(state="disabled")  # Désactiver la zone de saisie
             self.bouton_deviner.config(state="disabled")  # Désactiver le bouton de devinette
-            self.label_mot_final = Label(root, text=f"Le mot était : {self.mot_a_deviner}", font=("Arial", 16), bg="#FFDAB9", fg="#8B0000")
+            self.label_mot_final = Label(self.root, text=f"Le mot était : {self.mot_a_deviner}", font=("Arial", 16), bg="#FFDAB9", fg="#8B0000")
             self.label_mot_final.pack()
         self.label_vies.config(text=f"Vies restantes : {self.nb_vies}")
         self.label_mot.config(text=resultat)
