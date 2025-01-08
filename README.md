@@ -84,7 +84,7 @@ cd jeu-du-pendu
 
 - Créez un fichier texte nommé `mots.txt` contenant une liste de mots (un mot par ligne) dans le répertoire du projet.
 - Exemple de contenu :
-  ```
+```
 mot1
 mot2
 mot3
@@ -92,13 +92,7 @@ mot3
 
 ### 3. Installer les dépendances
 
-Aucune bibliothèque externe n'est nécessaire pour ce projet. Cependant, si vous souhaitez garantir que toutes les dépendances standards sont à jour, exécutez :
-
-```bash
-pip install -r requirements.txt
-```
-
-Si le fichier `requirements.txt` n'est pas fourni, le projet repose uniquement sur **Tkinter**, inclus avec Python standard.
+Aucune bibliothèque externe n'est nécessaire pour ce projet. Le projet repose uniquement sur **Tkinter**, inclus avec Python standard.
 
 ### 4. Lancer l'application
 
