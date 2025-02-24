@@ -1,5 +1,3 @@
-# Documentation du Projet
-
 ## Jeu du Pendu avec Tkinter
 
 Ce projet implémente le classique jeu du pendu à l'aide de l'interface graphique Python Tkinter. Le joueur doit deviner un mot en proposant des lettres avant d'épuiser ses vies. Il inclut des fonctionnalités avancées comme la suggestion de lettres basée sur une analyse probabiliste.
